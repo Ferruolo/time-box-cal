@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {EntryItem} from "../component/entry-item"
+import EntryItem from "../component/entry-item"
 import {useRouter} from "next/router";
 
 export default function Entry() {
@@ -15,7 +15,10 @@ export default function Entry() {
     const newItem = (e) => {
         e.preventDefault();
         setTaskList(prevState => [...prevState, ""]);
-        displayList(EntryItem(taskList.length, getItem, setItem));
+        const newItem = displayList(EntryItem(
+            {index: taskList.length, getFxn: getItem, setFxn: setItem}
+        ));
+        setDisplayList(prevState => [...prevState, newItem]);
     }
 
 
@@ -26,5 +29,6 @@ export default function Entry() {
                 <button onClick={newItem}>Add New item</button>
             </div>
             <div onClick={() => router.push("/cal-view")}>Create Calendar for Day</div>
-        </main>)
+        </main>
+    )
 }
