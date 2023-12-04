@@ -1,27 +1,37 @@
-import React, {useState} from 'react';
+// EntryInput.js
+import React from 'react';
+import styles from "../styles/Entry.module.css"
+import stylesLocal from "../styles/Entry.module.css";
 
-const entryInput = ({}) => {
-    // Define three state variables with default values
-    const [value1, setValue1] = useState('Default Value 1');
-    const [value2, setValue2] = useState('Default Value 2');
-    const [value3, setValue3] = useState('Default Value 3');
+const EntryInput = ({ data, setData }) => {
+    const setDataFxns = name =>
+        e => setData(prevData => ({
+            ...prevData,
+            [name]: e.target.value
+        }));
 
-    // Function to handle changes in the first input
-    const handleChange1 = e => setValue1(e.target.value);
+    return <div className={styles.entryItemMain}>
+        <input
+            type="text"
+            value={data.taskName}
+            onChange={setDataFxns("taskName")}
+            className={stylesLocal.entryItem1}
+        />
 
-    // Function to handle changes in the second input
-    const handleChange2 = e => setValue2(e.target.value);
+        <input
+            type="number"
+            value={data.importance}
+            onChange={setDataFxns("importance")}
+            className={stylesLocal.entryItem2}
+        />
 
-    // Function to handle changes in the third input
-    const handleChange3 = e => setValue3(e.target.value);
-
-    return <div>
-        <input type="text" value={value1} onChange={handleChange1}/>
-
-        <input type="text" value={value2} onChange={handleChange2}/>
-
-        <input type="text" value={value3} onChange={handleChange3}/>
-    </div>
+        <input
+            type="number"
+            value={data.time}
+            onChange={setDataFxns("time")}
+            className={stylesLocal.entryItem3}
+        />
+    </div>;
 };
 
-export default entryInput;
+export default EntryInput;

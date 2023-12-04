@@ -1,30 +1,57 @@
-import {useState} from "react";
-import EntryItem from "../component/entry-item"
-import {useRouter} from "next/router";
+import React, {useState} from "react";
+import stylesHome from "../styles/Home.module.css";
+import stylesLocal from "../styles/Entry.module.css";
+import EntryInput from "@/component/entry-item";
+import {Inter} from "next/font/google";
 
-export default function Entry() {
-    const {taskList, setTaskList} = useState([])
-    const {displayList, setDisplayList} = useState([])
-    const router = useRouter()
+const interFont = Inter({subsets: ['latin']})
 
-    const getItem = idx => taskList[idx];
-    const setItem = (idx, val) => setTaskList(prevState => [...prevState, prevState[idx] = val])
+const Entry = () => {
+    const [data, setData] = useState({
+        taskName: "Whats Up",
+        importance: 0,
+        time: 0
+    });
 
-    const newItem = e => {
-        e.preventDefault();
-        setTaskList(prevState => [...prevState, ""]);
-        const newItem = displayList(EntryItem(
-            {index: taskList.length, getFxn: getItem, setFxn: setItem}
-        ));
-        setDisplayList(prevState => [...prevState, newItem]);
-    }
+    const [entryItems, setEntryItems] = useState([data]);
 
+    const addNewItem = () => setEntryItems(prevItems =>
+        [...prevItems, {taskName: "New Item", importance: 0, time: 0}]);
 
-    return <main>
-        <div>
-            {displayList}
-            <button onClick={newItem}>Add New item</button>
+    const updateData = (index, newData) =>
+        setEntryItems(prevItems => {
+            const newItems = [...prevItems];
+            newItems[index] = newData;
+            return newItems;
+        });
+
+    return <main className={stylesHome.main}  style={interFont.style}>
+        <nav></nav>
+        <div className={stylesLocal.header}>
+            <h1 className={stylesLocal.header}>Entry Page</h1>
+            <h2>
+                Please enter all the tasks you want to accomplish,
+                their priority, and the time it will take to accomplish them
+            </h2>
         </div>
-        <div onClick={() => router.push("/cal-view")}>Create Calendar for Day</div>
-    </main>
-}
+
+        <div className={stylesLocal.entryArea}>
+            <div className={stylesLocal.entryItemHeader}>
+                <span className={stylesLocal.entryItem1}>Item Name</span>
+                <span className={stylesLocal.entryItem2}>Importance</span>
+                <span className={stylesLocal.entryItem3}>Hours Expected</span>
+            </div>
+
+            {entryItems.map((item, index) => <EntryInput
+                key={index}
+                data={item}
+                setData={newData => updateData(index, newData)}
+            />)}
+        </div>
+        <button onClick={addNewItem} style={{margin: "auto"}}>
+            New Item
+        </button>
+    </main>;
+};
+
+export default Entry;
