@@ -89,7 +89,7 @@ const WeekCalendar = ({apiData}) => {
 
 export async function getServerSideProps() {
     try {
-        const apiUrl = "http://localhost:3000/api/read_data";
+        const apiUrl = "/api/read_data";
         const response = await fetch(apiUrl);
 
         if (response.ok) {

@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     const currentDate = new Date();
     let formattedDate = getCurDate();
 
-    let data = await fetch("http://localhost:3000/api/read_data").then(res => res.json())
+    let data = await fetch("/api/read_data").then(res => res.json())
 
     let nextAvailable = currentDate.getHours() + 1;
     let entries = JSON.parse(req.body)
