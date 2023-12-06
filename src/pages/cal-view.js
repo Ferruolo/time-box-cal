@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import calendarStyle from "../styles/Calendar.module.css"
+import stylesHome from "../styles/Home.module.css"
 import {Inter} from "next/font/google";
+import {useRouter} from "next/router";
 
 const interFont = Inter({subsets: ['latin']})
 
@@ -8,20 +10,15 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 
 const WeekCalendar = ({apiData}) => {
+    const router = useRouter();
     const [startDate, setStartDate] = useState(new Date());
-    const [events, setEvents] = useState([apiData]);
-
+    const [events, setEvents] = useState([...apiData[0]["12-4-2023"]]);
     const handlePrevWeek = () => {
         const newStartDate = new Date(startDate);
         newStartDate.setDate(newStartDate.getDate() - 7);
         setStartDate(newStartDate);
     };
 
-    const handleNextWeek = () => {
-        const newStartDate = new Date(startDate);
-        newStartDate.setDate(newStartDate.getDate() + 7);
-        setStartDate(newStartDate);
-    };
 
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -32,31 +29,55 @@ const WeekCalendar = ({apiData}) => {
         '18:00', '19:00', '20:00', '21:00', '22:00', '23:00',
     ];
 
-    const renderEventsForDayAndTime = (day, timeSlot) =>
-        events
-            .filter(event => event.day === day && event.time === timeSlot)
-            .map(event => <div key={event.id} className="event">
-                {event.title}
-            </div>);
 
-    return <div className="week-calendar">
+    const renderEventsForDayAndTime = (day, timeSlot) => {
+        const filtered = events
+            .filter(event => event.day === day &&
+                (event.start <= timeSlot && timeSlot <= event.end));
+        if (filtered.length > 0) {
+            return <span>{filtered.sort()[0].taskName}</span>
+        } else {
+            return <span>_</span>
+        }
+    }
+    return <main className="week-calendar" style={interFont.style}>
+        <nav className={stylesHome.navClass}>
+            <button
+                className={stylesHome.navButton}
+                onClick={() => router.push("/")}
+            >
+                Back to Landing
+            </button>
+            <button
+                className={stylesHome.navButton}
+                onClick={()=> router.push("/entry")}
+            >
+                Add More Items
+            </button>
+        </nav>
         <div className="calendar-header">
-            <button onClick={handlePrevWeek}>&lt;</button>
-            <h2>{`Week of ${startDate.toLocaleDateString()}`}</h2>
-            <button onClick={handleNextWeek}>&gt;</button>
         </div>
-        <div className="day-columns">
+        <div className={calendarStyle.calGrid}>
+            <span></span>{daysOfWeek.map(day => <div key={day} className="day-column">
+            <div className={calendarStyle.doy}>{day}</div>
+        </div>)
+        }
+            <div>
+                {timeSlots.map((v, i) => <div
+                    key={i}
+                    className={calendarStyle.timeOfDay}>{v}</div>)}
+            </div>
+
             {daysOfWeek.map(day => <div key={day} className="day-column">
-                <div className="day-header">{day}</div>
+
                 <div className="time-slots">
                     {timeSlots.map(timeSlot => <div key={timeSlot} className="time-slot">
-                        <div className="time">{timeSlot}</div>
-                        <div className="events">{renderEventsForDayAndTime(day, timeSlot)}</div>
+                        <div className={calendarStyle.task}>{renderEventsForDayAndTime(day, timeSlot)}</div>
                     </div>)}
                 </div>
             </div>)}
         </div>
-    </div>;
+    </main>;
 };
 
 
@@ -89,4 +110,5 @@ export async function getServerSideProps() {
         };
     }
 }
+
 export default WeekCalendar;

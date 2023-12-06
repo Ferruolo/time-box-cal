@@ -9,10 +9,25 @@
     margin: 100px auto 0 auto;
 }
 
-
 .calGrid {
     display: grid;
-    grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
     padding: 10%;
     text-align: center;
 }
+
+.doy {
+    color: #00f6ab;
+    border-bottom: #00f6ab solid 2px;
+}
+
+.task {
+    color: #00ffe9;
+}
+.timeOfDay {
+    color: rgba(0, 246, 171, 0.43);
+}
+.timeOfDay:hover {
+    color: #00f6ab;
+}
+

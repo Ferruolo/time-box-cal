@@ -20,20 +20,30 @@ const Entry = () => {
             newItems[index] = newData;
             return newItems;
         });
+    const submit = e =>{
+        e.preventDefault();
 
-    return <main className={stylesHome.main}  style={interFont.style}>
-        <nav>
-            <button onClick={()=> router.push("/")}>
+    }
+
+    return <main className={stylesHome.main} style={interFont.style}>
+        <nav className={stylesHome.navClass}>
+            <button
+                className={stylesHome.navButton}
+                onClick={() => router.push("/")}
+            >
                 Return to Landing
             </button>
-            <button onClick={() => router.push("/cal-view")}>
+            <button
+                onClick={() => router.push("/cal-view")}
+                className={stylesHome.navButton}
+            >
                 Continue to next page
             </button>
         </nav>
         <div className={stylesLocal.header}>
             <h1 className={stylesLocal.header}>Entry Page</h1>
             <h2>
-                Please enter all the tasks you want to accomplish,
+                Please enter all the tasks you want to accomplish today, <br/>
                 their priority, and the time it will take to accomplish them
             </h2>
         </div>
@@ -51,9 +61,18 @@ const Entry = () => {
                 setData={newData => updateData(index, newData)}
             />)}
         </div>
-        <button onClick={addNewItem} style={{margin: "auto"}}>
-            New Item
-        </button>
+        <div className={stylesHome.navClass}>
+            <button onClick={addNewItem}
+                    className={stylesHome.navButton}>
+                New Item
+            </button>
+            <button onClick={submit}
+                    className={stylesHome.navButton}>
+                New Item
+            </button>
+
+        </div>
+
     </main>;
 };
 

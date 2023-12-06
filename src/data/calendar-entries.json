@@ -2,11 +2,11 @@
   {
     "12-4-2023": [
       {
-        "start": "1000",
-        "end": "1200",
+        "day": "Mon",
+        "start": "10:00",
+        "end": "12:00",
         "taskName": "taskName",
-        "importance": "importance",
-        "time": "time"
+        "importance": "importance"
       }
     ]
   }
