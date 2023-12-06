@@ -10,24 +10,29 @@ const interFont = Inter({subsets: ['latin']})
 const Entry = () => {
     const router = useRouter()
     const [entryItems, setEntryItems] = useState([]);
-
     const addNewItem = () => setEntryItems(prevItems =>
         [...prevItems, {taskName: "New Item", importance: 0, time: 0}]);
 
     const updateData = (index, newData) =>
         setEntryItems(prevItems => {
             const newItems = [...prevItems];
-            newItems[index] = newData;
+            newItems[index] = newData(newItems[index]);
             return newItems;
         });
     const submit = e =>{
         e.preventDefault();
         console.log(entryItems)
+        const intItems = entryItems.map(item => ({
+            taskName: item.taskName,
+            importance: parseInt(item.importance),
+            time: parseInt(item.time)
+        }))
+
 
 
         fetch("/api/add_entries", {
             method: "post",
-            body: JSON.stringify(entryItems)
+            body: JSON.stringify(intItems)
         }).then(async () => {
             await router.push("/cal-view")
         })

@@ -13,22 +13,22 @@ const EntryInput = ({ data, setData }) => {
     return <div className={styles.entryItemMain}>
         <input
             type="text"
-            value={data.taskName}
-            onChange={setDataFxns("taskName")}
+            // value={data.taskName}
+            onChange={e => {setDataFxns("taskName")(e)}}
             className={stylesLocal.entryItem1}
         />
 
         <input
             type="number"
-            value={data.importance}
-            onChange={setDataFxns("importance")}
+            // value={data.importance}
+            onChange={e => {setDataFxns("importance")(e)}}
             className={stylesLocal.entryItem2}
         />
 
         <input
             type="number"
-            value={data.time}
-            onChange={setDataFxns("time")}
+            // value={data.time}
+            onChange={e => {setDataFxns("time")(e)}}
             className={stylesLocal.entryItem3}
         />
     </div>;

@@ -6,3 +6,4 @@ const getCurDate = () =>{
         day: '2-digit',
     }).replace(/\//g, '-')
 }
+export { getCurDate };

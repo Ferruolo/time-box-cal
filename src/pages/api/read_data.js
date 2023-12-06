@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 export default (req, res) => {
+    console.log("ALOS HEREEE")
     try {
         const filePath = path.join(process.cwd(),"./src/data/calendar-entries.json");
 

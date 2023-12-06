@@ -6,27 +6,39 @@ import {useRouter} from "next/router";
 
 const interFont = Inter({subsets: ['latin']})
 
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+function getNext7Days() {
+    const today = new Date();
+    const next7Days = [];
 
+    for (let i = 0; i < 7; i++) {
+        const nextDay = new Date(today);
+        nextDay.setDate(today.getDate() + i);
+
+        const month = String(nextDay.getMonth() + 1).padStart(2, '0');
+        const day = String(nextDay.getDate()).padStart(2, '0');
+        const year = nextDay.getFullYear();
+
+        const formattedDate = `${month}-${day}-${year}`;
+        next7Days.push(formattedDate);
+    }
+
+    return next7Days;
+}
 
 const WeekCalendar = ({apiData}) => {
+    console.log(apiData)
     const router = useRouter();
     const [startDate, setStartDate] = useState(new Date());
-    const [events, setEvents] = useState([...apiData[0]["12-4-2023"]]);
+    const [events, setEvents] = useState(apiData);
 
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const next7Days = getNext7Days();
 
-    const timeSlots = [
-        '00:00', '01:00', '02:00', '03:00', '04:00', '05:00',
-        '06:00', '07:00', '08:00', '09:00', '10:00', '11:00',
-        '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
-        '18:00', '19:00', '20:00', '21:00', '22:00', '23:00',
-    ];
+    const timeSlots = Array.from({ length: 24 }, (_, index) => index + 1);
 
 
     const renderEventsForDayAndTime = (day, timeSlot) => {
         const filtered = events
-            .filter(event => event.day === day &&
+            .filter(event => event.date === day &&
                 (event.start <= timeSlot && timeSlot <= event.end));
         if (filtered.length > 0) {
             return <span>{filtered.sort()[0].taskName}</span>
@@ -49,10 +61,10 @@ const WeekCalendar = ({apiData}) => {
                 Add More Items
             </button>
         </nav>
-        <div className="calendar-header">
-        </div>
+        {/*<div className="calendar-header">*/}
+        {/*</div>*/}
         <div className={calendarStyle.calGrid}>
-            <span></span>{daysOfWeek.map(day => <div key={day} className="day-column">
+            <span></span>{next7Days.map(day => <div key={day} className="day-column">
             <div className={calendarStyle.doy}>{day}</div>
         </div>)
         }
@@ -62,7 +74,7 @@ const WeekCalendar = ({apiData}) => {
                     className={calendarStyle.timeOfDay}>{v}</div>)}
             </div>
 
-            {daysOfWeek.map(day => <div key={day} className="day-column">
+            {next7Days.map(day => <div key={day} className="day-column">
 
                 <div className="time-slots">
                     {timeSlots.map(timeSlot => <div key={timeSlot} className="time-slot">
@@ -77,8 +89,8 @@ const WeekCalendar = ({apiData}) => {
 
 export async function getServerSideProps() {
     try {
-        const apiUrl = "/api/read_data";
-        const response = await fetch(apiUrl, {method: "post"});
+        const apiUrl = "http://localhost:3000/api/read_data";
+        const response = await fetch(apiUrl);
 
         if (response.ok) {
             const apiData = await response.json();
