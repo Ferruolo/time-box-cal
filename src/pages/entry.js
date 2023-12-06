@@ -7,6 +7,8 @@ import {useRouter} from "next/router";
 
 const interFont = Inter({subsets: ['latin']})
 
+const route = "https://time-box-cal.vercel.app/"
+
 const Entry = () => {
     const router = useRouter()
     const [entryItems, setEntryItems] = useState([]);
@@ -30,7 +32,7 @@ const Entry = () => {
 
 
 
-        fetch("/api/add_entries", {
+        fetch(route + "/api/add_entries", {
             method: "post",
             body: JSON.stringify(intItems)
         }).then(async () => {

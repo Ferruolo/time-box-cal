@@ -17,13 +17,13 @@ function incrementDay(dateString) {
 }
 
 
-
+const route = "https://time-box-cal.vercel.app/"
 export default async function handler(req, res) {
     console.log("**********HERERERE******************")
     const currentDate = new Date();
     let formattedDate = getCurDate();
 
-    let data = await fetch("/api/read_data").then(res => res.json())
+    let data = await fetch(route + "/api/read_data").then(res => res.json())
 
     let nextAvailable = currentDate.getHours() + 1;
     let entries = JSON.parse(req.body)

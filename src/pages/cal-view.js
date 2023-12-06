@@ -5,7 +5,7 @@ import {Inter} from "next/font/google";
 import {useRouter} from "next/router";
 
 const interFont = Inter({subsets: ['latin']})
-
+const route = "https://time-box-cal.vercel.app/"
 function getNext7Days() {
     const today = new Date();
     const next7Days = [];
@@ -89,7 +89,7 @@ const WeekCalendar = ({apiData}) => {
 
 export async function getServerSideProps() {
     try {
-        const apiUrl = "/api/read_data";
+        const apiUrl = route + "/api/read_data";
         const response = await fetch(apiUrl);
 
         if (response.ok) {
