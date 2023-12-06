@@ -22,7 +22,15 @@ const Entry = () => {
         });
     const submit = e =>{
         e.preventDefault();
+        console.log(entryItems)
 
+
+        fetch("/api/add_entries", {
+            method: "post",
+            body: JSON.stringify(entryItems)
+        }).then(async () => {
+            await router.push("/cal-view")
+        })
     }
 
     return <main className={stylesHome.main} style={interFont.style}>
@@ -37,7 +45,7 @@ const Entry = () => {
                 onClick={() => router.push("/cal-view")}
                 className={stylesHome.navButton}
             >
-                Continue to next page
+                View Calendar (No Save)
             </button>
         </nav>
         <div className={stylesLocal.header}>
@@ -68,7 +76,7 @@ const Entry = () => {
             </button>
             <button onClick={submit}
                     className={stylesHome.navButton}>
-                New Item
+                    Submit Entries
             </button>
 
         </div>

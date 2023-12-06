@@ -1,3 +1,7 @@
+body {
+    background-color: #8c8a8a;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #111111;

@@ -1,13 +1,2 @@
 [
-  {
-    "12-4-2023": [
-      {
-        "day": "Mon",
-        "start": "10:00",
-        "end": "12:00",
-        "taskName": "taskName",
-        "importance": "importance"
-      }
-    ]
-  }
 ]

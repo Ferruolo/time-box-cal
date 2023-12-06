@@ -13,12 +13,6 @@ const WeekCalendar = ({apiData}) => {
     const router = useRouter();
     const [startDate, setStartDate] = useState(new Date());
     const [events, setEvents] = useState([...apiData[0]["12-4-2023"]]);
-    const handlePrevWeek = () => {
-        const newStartDate = new Date(startDate);
-        newStartDate.setDate(newStartDate.getDate() - 7);
-        setStartDate(newStartDate);
-    };
-
 
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -83,7 +77,7 @@ const WeekCalendar = ({apiData}) => {
 
 export async function getServerSideProps() {
     try {
-        const apiUrl = "http://localhost:3000/api/read_data";
+        const apiUrl = "/api/read_data";
         const response = await fetch(apiUrl, {method: "post"});
 
         if (response.ok) {
